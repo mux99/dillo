@@ -45,3 +45,10 @@ tags
 /test/shapes
 /test/trie
 /test/unicode-test
+
+*/.deps/
+configure~
+test-driver
+src/IO/.deps/
+test/dw/.deps/
+test/unit/.deps/

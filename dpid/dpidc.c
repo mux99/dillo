@@ -12,6 +12,10 @@
 #include "../dlib/dlib.h"
 #include "../dpip/dpip.h"
 
+#ifndef IPPROTO_MPTCP
+#define IPPROTO_MPTCP 262
+#endif
+
 #define MSG_ERR(...) printf("** ERROR **: " __VA_ARGS__);
 
 char *CMD_REGISTER = "<cmd='register_all' '>";
@@ -76,7 +80,7 @@ int main(int argc, char *argv[])
        exit(1);
     }
 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_MPTCP);
     if (sockfd < 0)
         error("ERROR opening socket");
     bzero((char *) &serv_addr, sizeof(serv_addr));

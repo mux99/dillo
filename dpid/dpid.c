@@ -38,6 +38,10 @@
 
 #define QUEUE 5
 
+#ifndef IPPROTO_MPTCP
+#define IPPROTO_MPTCP 262
+#endif
+
 volatile sig_atomic_t caught_sigchld = 0;
 char *SharedKey = NULL;
 
@@ -518,11 +522,11 @@ static int make_socket_fd()
 {
    int ret, one = 1;
 
-   if ((ret = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+   if ((ret = socket(AF_INET, SOCK_STREAM, IPPROTO_MPTCP)) == -1) {
       ERRMSG("make_socket_fd", "socket", errno);
    } else {
       /* avoid delays when sending small pieces of data */
-      setsockopt(ret, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
+      setsockopt(ret, IPPROTO_MPTCP, TCP_NODELAY, &one, sizeof(one));
    }
 
    /* set some buffering to increase the transfer's speed */

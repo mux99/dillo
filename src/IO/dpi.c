@@ -50,6 +50,9 @@
 #define AF_LOCAL AF_UNIX
 #endif
 
+#ifndef IPPROTO_MPTCP
+#define IPPROTO_MPTCP 262
+#endif
 
 typedef struct {
    int InTag;
@@ -423,9 +426,9 @@ static int Dpi_make_socket_fd()
 {
    int fd, one = 1, ret = -1;
 
-   if ((fd = socket(AF_INET, SOCK_STREAM, 0)) != -1) {
+   if ((fd = socket(AF_INET, SOCK_STREAM, IPPROTO_MPTCP)) != -1) {
       /* avoid delays when sending small pieces of data */
-      setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
+      setsockopt(fd, IPPROTO_MPTCP, TCP_NODELAY, &one, sizeof(one));
       ret = fd;
    }
    return ret;

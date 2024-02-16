@@ -42,6 +42,10 @@
 
 #include "../uicmd.hh"
 
+#ifndef IPPROTO_MPTCP
+#define IPPROTO_MPTCP 262
+#endif
+
 /* Used to send a message to the bw's status bar */
 #define MSG_BW(web, root, ...)                                        \
 D_STMT_START {                                                        \
@@ -582,7 +586,7 @@ static void Http_connect_socket(ChainLink *Info)
          Http_fd_map_remove_entry(S->SockFD);
          dClose(S->SockFD);
       }
-      if ((S->SockFD = socket(dh->af, SOCK_STREAM, IPPROTO_TCP)) < 0) {
+      if ((S->SockFD = socket(dh->af, SOCK_STREAM, IPPROTO_MPTCP)) < 0) {
          MSG("Http_connect_socket socket() ERROR: %s\n", dStrerror(errno));
          continue;
       }

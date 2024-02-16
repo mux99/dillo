@@ -51,6 +51,10 @@
 #include "dlib/dlib.h"
 #include "dpip/dpip.h"
 
+#ifndef IPPROTO_MPTCP
+#define IPPROTO_MPTCP 262
+#endif
+
 static uint_t failed = 0;
 static uint_t passed = 0;
 
@@ -103,7 +107,7 @@ static int Dpi_make_socket_fd()
 {
    int fd, ret = -1;
 
-   if ((fd = socket(AF_INET, SOCK_STREAM, 0)) != -1) {
+   if ((fd = socket(AF_INET, SOCK_STREAM, IPPROTO_MPTCP)) != -1) {
       ret = fd;
    }
    return ret;
